@@ -1,0 +1,24 @@
+{
+  "name": "beefy-databarn",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "build": "nx run-many --target=build --all",
+    "lint": "nx run-many --target=lint --all",
+    "test": "nx run-many --target=test --all",
+    "affected:build": "nx affected:build --base=origin/main --parallel",
+    "affected:test": "nx affected:test --base=origin/main --parallel",
+    "affected:lint": "nx affected:lint --base=origin/main --parallel"
+  },
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {
+    "@nx/js": "17.2.2",
+    "nx": "17.2.2",
+    "prettier": "^3.1.1",
+    "typescript": "^5.3.3"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}

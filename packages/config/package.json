@@ -1,0 +1,17 @@
+{
+    "name": "@beefy-databarn/config",
+    "version": "1.0.0",
+    "description": "",
+    "main": "dist/index.js",
+    "license": "ISC",
+    "scripts": {
+        "build": "tsc src/index.ts --outDir dist"
+    },
+    "dependencies": {
+        "dotenv": "^16.3.1"
+    },
+    "devDependencies": {
+        "@types/node": "^20.10.4",
+        "typescript": "^5.3.3"
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "name": "@beefy-databarn/logger",
+    "version": "1.0.0",
+    "description": "",
+    "main": "dist/index.js",
+    "license": "ISC",
+    "scripts": {
+        "build": "tsc src/index.ts --outDir dist"
+    },
+    "dependencies": {
+        "@beefy-databarn/config": "*",
+        "pino": "^8.16.2"
+    },
+    "devDependencies": {
+        "@types/node": "^20.10.4",
+        "typescript": "^5.3.3"
+    }
+}
