@@ -1,8 +1,7 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export const NODE_ENV: "development" | "production" =
-  process.env["NODE_ENV"] == "production" ? "production" : "development";
+export const NODE_ENV: "development" | "production" = process.env["NODE_ENV"] == "production" ? "production" : "development";
 
 // make sure we have set the TZ
 const timezone = process.env.TZ;

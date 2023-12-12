@@ -28,6 +28,5 @@
     "allowJs": true,
     "checkJs": true,
     "noErrorTruncation": true
-  },
-  "exclude": ["node_modules", "tmp", "**/dist"]
+  }
 }

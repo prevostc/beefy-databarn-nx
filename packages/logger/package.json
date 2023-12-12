@@ -5,14 +5,15 @@
     "main": "dist/index.js",
     "license": "ISC",
     "scripts": {
-        "build": "tsc src/index.ts --outDir dist"
+        "clean": "rm -rf dist",
+        "build": "tsc --project tsconfig.json",
+        "format": "prettier --write src/**/*.ts",
+        "lint": "eslint src/**/*.ts"
     },
     "dependencies": {
         "@beefy-databarn/config": "*",
         "pino": "^8.16.2"
     },
     "devDependencies": {
-        "@types/node": "^20.10.4",
-        "typescript": "^5.3.3"
     }
 }
