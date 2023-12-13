@@ -6,7 +6,7 @@ export const NODE_ENV: "development" | "production" = process.env["NODE_ENV"] ==
 // make sure we have set the TZ
 const timezone = process.env.TZ;
 if (timezone !== "UTC") {
-  throw new Error("Please set TZ=UTC in your .env file or command line");
+    throw new Error("Please set TZ=UTC in your .env file or command line");
 }
 
 // logs

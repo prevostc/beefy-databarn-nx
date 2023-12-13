@@ -14,6 +14,5 @@
         "@beefy-databarn/config": "*",
         "pino": "^8.16.2"
     },
-    "devDependencies": {
-    }
+    "devDependencies": {}
 }

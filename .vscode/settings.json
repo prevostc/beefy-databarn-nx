@@ -1,0 +1,12 @@
+{
+    "files.exclude": {
+        "packages/*/coverage": true,
+        "packages/*/dist": true,
+        "packages/*/node_modules": true
+    },
+    "editor.formatOnSave": true,
+    //"prettier.prettierPath": "node_modules/prettier",
+    "prettier.configPath": ".prettierrc",
+    "prettier.ignorePath": ".prettierignore",
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+}

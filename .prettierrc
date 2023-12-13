@@ -1,8 +1,10 @@
-{ 
-    "printWidth": 150, 
-    "trailingComma": "all", 
+{
+    "plugins": ["prettier-plugin-organize-imports"],
+    "printWidth": 150,
+    "trailingComma": "all",
     "organizeImportsSkipDestructiveCodeActions": true,
     "arrowParens": "avoid",
     "endOfLine": "lf",
+    "tabWidth": 4,
     "semi": true
 }
