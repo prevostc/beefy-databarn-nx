@@ -8,7 +8,7 @@
         "build": "nx run-many --target=build --all",
         "lint": "nx run-many --target=lint --all",
         "format": "nx run-many --target=format --all && yarn --silent format:top-level",
-        "format:top-level": "./node_modules/.bin/prettier . '!packages/**/*' --write --log-level silent",
+        "format:top-level": "./node_modules/.bin/prettier . '!packages/**/*' --write",
         "test": "nx run-many --target=test --all",
         "affected:build": "nx affected -t build --parallel",
         "affected:test": "nx affected -t test --parallel",

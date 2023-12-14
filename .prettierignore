@@ -4,3 +4,5 @@ cache
 coverage*
 gasReporterOutput.json
 dist
+
+apps/grafana/provisioning/alerting/discord_templates.yaml
