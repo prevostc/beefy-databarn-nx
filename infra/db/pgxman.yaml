@@ -1,0 +1,137 @@
+apiVersion: v1
+postgres:
+    version: "15"
+extensions:
+    #########################
+    # FOREIGN DATA WRAPPERS #
+    #########################
+
+    # https://github.com/hydradatabase/parquet_s3_fdw
+    # https://pgxman.com/x/parquet_s3_fdw
+    # Parquet S3 Foreign Data Wrapper for PostgreSQL.
+    - name: "parquet_s3_fdw"
+      version: "1.0.0+5298b7f"
+
+    #########################
+    # SPECIALIZED FUNCTIONS #
+    #########################
+
+    # https://github.com/citusdata/postgresql-topn
+    # https://pgxman.com/x/topn
+    # TopN is an open source PostgreSQL extension that returns the top values in a database according to some criteria.
+    - name: "topn"
+      version: "2.6.0"
+
+    ###############################
+    # SPECIALIZED DATA STRUCTURES #
+    ###############################
+
+    # https://github.com/citusdata/postgresql-hll
+    # https://pgxman.com/x/hll
+    # PostgreSQL extension adding HyperLogLog data structures as a native data type.
+    - name: "hll"
+      version: "2.18.0"
+
+    # https://www.postgresql.org/docs/15/bloom.html
+    # https://pgxman.com/x/bloom
+    # bloom access method - signature file based index
+    #- name: "bloom"
+    #  version: "15.5.0"
+
+    ##############
+    # MONITORING #
+    ##############
+
+    # https://www.postgresql.org/docs/15/pgstatstatements.html
+    # https://pgxman.com/x/pg_stat_statements
+    # track planning and execution statistics of all SQL statements executed
+    #- name: "pg_stat_statements"
+    #  version: "15.5.0"
+
+    ##########################################################################################
+    ##########################################################################################
+    ##########################################################################################
+
+    ###################
+    # might be useful #
+    ###################
+
+    # https://www.postgresql.org/docs/15/file-fdw.html
+    # https://pgxman.com/x/file_fdw
+    #- name: "file_fdw"
+    #  version: "15.5.0"
+
+    # https://github.com/pgvector/pgvector
+    # https://pgxman.com/x/pgvector
+    # Open-source vector similarity search for Postgres.
+    #- name: "pgvector"
+    #  version: "0.5.1"
+
+    # https://www.postgresql.org/docs/15/citext.html
+    # https://pgxman.com/x/citext
+    # Case-insensitive character string type for PostgreSQL.
+    #- name: "citext"
+    #  version: "15.5.0"
+
+    # https://github.com/ossc-db/pg_hint_plan
+    # https://pgxman.com/x/pg_hint_plan-15
+    # Give PostgreSQL ability to manually force some decisions in execution plans.
+    #- name: "pg_hint_plan-15"
+    #  version: "1.5.0-1"
+
+    # https://github.com/sraoss/pg_ivm
+    # https://pgxman.com/x/pg_ivm
+    # IVM (Incremental View Maintenance) implementation as a PostgreSQL extension.
+    #- name: "pg_ivm"
+    #  version: "1.7.0"
+
+    # https://github.com/pgpartman/pg_partman
+    # https://pgxman.com/x/pg_partman
+    # Partition management extension for PostgreSQL.
+    #- name: "pg_partman"
+    #  version: "5.0.0"
+
+    # https://www.postgresql.org/docs/15/tsm-system-rows.html
+    # https://pgxman.com/x/tsm_system_rows
+    # TABLESAMPLE method which accepts number of rows as a limit
+    #- name: "tsm_system_rows"
+    #  version: "15.5.0"
+
+    # https://www.postgresql.org/docs/15/tsm-system-time.html
+    # https://pgxman.com/x/tsm_system_time
+    # TABLESAMPLE method which accepts time in milliseconds as a limit
+    #- name: "tsm_system_time"
+    #  version: "15.5.0"
+
+    # https://github.com/tvondra/tdigest
+    # https://pgxman.com/x/tdigest
+    # PostgreSQL extension for estimating percentiles using t-digest.
+    #- name: "tdigest"
+    #  version: "1.4.1"
+
+    # https://github.com/hydradatabase/hydra
+    # https://pgxman.com/x/hydra_columnar
+    # Hydra columnar extension for PostgreSQL.
+    #- name: "hydra_columnar"
+    #  version: "1.0.2"
+
+    ################
+    ## to sort out #
+    ################
+
+    # amcheck
+    # pg_trgm
+    # pg_prewarm
+    # pg_surgery
+    # lo
+    # isn
+    # btree_gist
+    # pg_buffercache
+    # intarray
+    # btree_gin
+    # ltree
+    # hstore
+    # uuid-ossp
+    # postgres_fdw
+    # pg_freespacemap
+    # pgsentinel

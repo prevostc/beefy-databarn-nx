@@ -2,7 +2,13 @@
     "files.exclude": {
         "packages/*/coverage": true,
         "packages/*/dist": true,
-        "packages/*/node_modules": true
+        "packages/*/node_modules": true,
+        "apps/*/coverage": true,
+        "apps/*/dist": true,
+        "apps/*/node_modules": true,
+        ".nx": true,
+        ".husky": true,
+        "node_modules": true
     },
     "editor.formatOnSave": true,
     //"prettier.prettierPath": "node_modules/prettier",
