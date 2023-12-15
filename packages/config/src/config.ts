@@ -1,4 +1,8 @@
 import * as dotenv from "dotenv";
+
+// load this project root .env file
+dotenv.config({ path: `${__dirname}/../../../.env` });
+// load current directory .env file
 dotenv.config();
 
 export const NODE_ENV: "development" | "production" = process.env["NODE_ENV"] == "production" ? "production" : "development";
@@ -18,5 +22,5 @@ export const DB_PORT: number = parseInt(process.env["DB_PORT"] || "5432");
 export const DB_NAME: string = process.env["DB_NAME"] || "beefy";
 export const DB_USER: string = process.env["DB_USER"] || "beefy";
 export const DB_PASS: string = process.env["DB_PASS"] || "beefy";
-export const DB_MIGRATION_SCHEMA: string = process.env["DB_MIGRATION_SCHEMA"] || "public";
-export const DB_MIGRATION_FILE_PATTERN: string = process.env["DB_MIGRATION_FILE_PATTERN"] || "infra/db-migrate/src/sql/*.sql";
+export const DB_MIGRATION_TABLE: string = process.env["DB_MIGRATION_TABLE"] || "schemaversion";
+export const DB_MIGRATION_FILE_PATTERN: string = process.env["DB_MIGRATION_FILE_PATTERN"] || __dirname + "/../../../apps/db-migrate/src/sql/*.sql";

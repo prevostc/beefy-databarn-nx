@@ -14,11 +14,11 @@
         "affected:test": "nx affected -t test --parallel",
         "affected:lint": "nx affected -t lint --parallel",
         "affected:format": "nx affected -t format --parallel",
-        "precommit": "yarn --silent format:top-level && nx affected -t format lint build test --parallel",
+        "precommit": "yarn --silent format:top-level && nx affected -t format lint build test --parallel && git add -A .",
         "infra:start": "docker compose -p databarn-dev -f infra/docker-compose.dev.yml up -d",
         "infra:logs": "docker compose -p databarn-dev -f infra/docker-compose.dev.yml logs -f",
         "infra:stop": "docker compose -p databarn-dev -f infra/docker-compose.dev.yml down",
-        "db:console": "docker exec -it databarn-dev-postgres-1 psql -U beefy"
+        "pg:console": "docker exec -it databarn-dev-postgres-1 psql -U beefy"
     },
     "private": true,
     "dependencies": {

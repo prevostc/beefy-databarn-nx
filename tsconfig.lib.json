@@ -2,6 +2,7 @@
     "compileOnSave": false,
     "compilerOptions": {
         "paths": {
+            // only packages here
             "@beefy-databarn/config": ["packages/config/src/index.ts"],
             "@beefy-databarn/logger": ["packages/logger/src/index.ts"]
         },
@@ -33,7 +34,7 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "allowJs": true,
-        "checkJs": true,
+        "checkJs": false,
         "noErrorTruncation": true
     }
 }

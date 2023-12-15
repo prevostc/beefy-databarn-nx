@@ -1,0 +1,33 @@
+FROM node:21.4-alpine as build
+
+RUN mkdir -p /opt/build;
+
+WORKDIR /opt/build
+
+ARG APP_NAME="please set APP_NAME"
+COPY [ "tsconfig.lib.json", "nx.json", "./" ]
+COPY [ "package.json", "yarn.lock", "./" ]
+COPY packages packages
+COPY apps/$APP_NAME apps/$APP_NAME
+RUN yarn install --frozen-lockfile
+RUN yarn nx run @beefy-databarn/$APP_NAME:build
+
+##########################
+FROM node:21.4-alpine as release
+
+# Prepare the app directory
+RUN mkdir -p /opt/app
+WORKDIR /opt/app
+
+ARG APP_NAME="please set APP_NAME"
+# Copy dependencies and compiled application from previous steps
+COPY --from=build /opt/build/node_modules /opt/app/node_modules
+COPY --from=build /opt/build/apps/$APP_NAME/dist /opt/app/apps/$APP_NAME/dist
+COPY --from=build /opt/build/packages /opt/app/packages
+
+# Run the application using node
+# Set environment to production
+ENV NODE_ENV='production'
+ENV APP_NAME=$APP_NAME
+ENTRYPOINT []
+CMD node apps/${APP_NAME}/dist/apps/${APP_NAME}/src/index.js
