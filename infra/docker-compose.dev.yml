@@ -50,13 +50,17 @@ services:
             args:
                 APP_NAME: db-migrate
         env_file: ../.env
+        volumes:
+            - ../apps/db-migrate/src/sql:/sql
         environment:
             TZ: "UTC"
+            LOG_LEVEL: "trace"
             DB_HOST: postgres
             DB_PORT: 5432
             DB_NAME: beefy
             DB_USER: beefy
             DB_PASS: beefy
+            DB_MIGRATION_FILE_PATTERN: "/sql/*.sql"
         networks:
             - backend
         depends_on:

@@ -6,7 +6,8 @@
     "license": "ISC",
     "scripts": {
         "start": "node dist/db-migrate/index.js",
-        "dev": "ts-node src/index.ts",
+        "migrate": "ts-node index.ts",
+        "migrate:version": "ts-node index.ts --target ",
         "undo": "",
         "clean": "rm -rf dist",
         "build": "tsc --project tsconfig.json",
@@ -18,9 +19,11 @@
         "@beefy-databarn/config": "*",
         "@beefy-databarn/logger": "*",
         "pg": "^8.11.3",
-        "postgrator": "^7.2.0"
+        "postgrator": "^7.2.0",
+        "yargs": "^17.7.2"
     },
     "devDependencies": {
-        "@types/pg": "^8.10.9"
+        "@types/pg": "^8.10.9",
+        "@types/yargs": "^17.0.32"
     }
 }

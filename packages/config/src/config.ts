@@ -23,4 +23,4 @@ export const DB_NAME: string = process.env["DB_NAME"] || "beefy";
 export const DB_USER: string = process.env["DB_USER"] || "beefy";
 export const DB_PASS: string = process.env["DB_PASS"] || "beefy";
 export const DB_MIGRATION_TABLE: string = process.env["DB_MIGRATION_TABLE"] || "schemaversion";
-export const DB_MIGRATION_FILE_PATTERN: string = process.env["DB_MIGRATION_FILE_PATTERN"] || __dirname + "/../../../apps/db-migrate/src/sql/*.sql";
+export const DB_MIGRATION_FILE_PATTERN: string = process.env["DB_MIGRATION_FILE_PATTERN"] || "./apps/db-migrate/src/sql/*.sql";

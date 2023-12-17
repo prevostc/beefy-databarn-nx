@@ -1,0 +1,37 @@
+CREATE TYPE chain_enum AS ENUM (
+    'arbitrum',
+    'aurora',
+    'avax',
+    'base',
+    'bsc',
+    'canto',
+    'celo',
+    'cronos',
+    'emerald',
+    'ethereum',
+    'fantom',
+    'fuse',
+    'gnosis',
+    'heco',
+    'kava',
+    'linea',
+    'metis',
+    'moonbeam',
+    'moonriver',
+    'one',
+    'optimism',
+    'polygon',
+    'zkevm',
+    'zksync'
+);
+CREATE TABLE raw_beefy_vault (
+    id character varying NOT NULL primary key,
+    eol_date timestamptz,
+    chain chain_enum NOT NULL,
+    contract_address evm_address NOT NULL,
+    strategy_address evm_address NOT NULL,
+    platform_id character varying,
+    last_harvest timestamptz,
+    price_per_full_share evm_decimal_256,
+    raw jsonb
+);
