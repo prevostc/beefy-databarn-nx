@@ -1,7 +1,6 @@
 import { getLoggerFor } from "@beefy-databarn/logger";
 import axios from "axios";
 import { Chain } from "./chain";
-import { BEEFY_API_URL } from "./config";
 import { Hex } from "./types";
 
 const logger = getLoggerFor("beefy-api", "vault-list");
@@ -65,7 +64,7 @@ export interface BeefyVault {
 
 export async function fetchBeefyVaults() {
     logger.info("Fetching vaults from beefy api");
-    const vaultResponse = await axios.get<ApiBeefyVaultResponse[]>(`${BEEFY_API_URL}/vaults`);
+    const vaultResponse = await axios.get<ApiBeefyVaultResponse[]>("https://api.beefy.finance/vaults");
     const rawVaults = vaultResponse.data;
     logger.info(`Fetched ${rawVaults.length} vaults from beefy api`);
 

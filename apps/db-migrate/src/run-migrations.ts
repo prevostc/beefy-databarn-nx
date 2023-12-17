@@ -1,7 +1,7 @@
-import { DB_HOST, DB_MIGRATION_FILE_PATTERN, DB_MIGRATION_TABLE, DB_NAME, DB_PASS, DB_PORT, DB_USER } from "@beefy-databarn/config";
+import { DB_MIGRATION_FILE_PATTERN, DB_MIGRATION_TABLE, DB_NAME } from "@beefy-databarn/config";
+import { getDbClient } from "@beefy-databarn/db-client";
 import { getLoggerFor } from "@beefy-databarn/logger";
 import { isNumber } from "lodash";
-import pg from "pg";
 
 const logger = getLoggerFor("db-migrate", "run-migrations");
 
@@ -9,13 +9,7 @@ export async function migrate(target: number | "max" = "max") {
     const Postgrator = (await import("postgrator")).default;
 
     logger.info("Starting...");
-    const client = new pg.Client({
-        host: DB_HOST,
-        port: DB_PORT,
-        database: DB_NAME,
-        user: DB_USER,
-        password: DB_PASS,
-    });
+    const client = await getDbClient({ appName: "db-migrate" });
 
     try {
         logger.debug("Connecting to database...");

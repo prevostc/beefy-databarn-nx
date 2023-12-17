@@ -4,7 +4,7 @@ import { getLoggerFor } from "@beefy-databarn/logger";
 import { Client as PgClient } from "pg";
 import pgf from "pg-format";
 
-const logger = getLoggerFor("db-client", "db-query");
+const logger = getLoggerFor("db-client", "query");
 
 type DbClient = {
     connect: PgClient["connect"];

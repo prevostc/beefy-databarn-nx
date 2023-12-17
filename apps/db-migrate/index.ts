@@ -1,18 +1,27 @@
-import { getLoggerFor } from "@beefy-databarn/logger";
+import { runMain } from "@beefy-databarn/async-tools";
 import yargs from "yargs";
 import { migrate } from "./src/run-migrations";
 
-const logger = getLoggerFor("db-migrate", "main");
-
 async function main() {
-    const cmd = await yargs.scriptName("db-migrate").usage("$0 [args]").number("target").alias("t", "target").help().argv;
-
-    await migrate(cmd.target === undefined ? "max" : cmd.target);
+    await yargs
+        .usage("$0 <cmd> [args]")
+        .command({
+            command: "migrate",
+            describe: "apply db migrations",
+            builder: yargs =>
+                yargs.options({
+                    target: {
+                        type: "number",
+                        alias: "t",
+                        describe: "Target migration version",
+                    },
+                }),
+            handler: async argv => {
+                await migrate(argv.target === undefined ? "max" : argv.target);
+            },
+        })
+        .demandCommand()
+        .help().argv;
 }
 
-main()
-    .then(() => process.exit(0))
-    .catch(e => {
-        logger.error(e);
-        process.exit(1);
-    });
+runMain(main);
