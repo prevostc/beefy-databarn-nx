@@ -1,0 +1,19 @@
+{
+    "name": "@beefy-databarn/beefy-api",
+    "version": "1.0.0",
+    "description": "",
+    "main": "dist/index.js",
+    "license": "ISC",
+    "scripts": {
+        "clean": "rm -rf dist",
+        "build": "tsc --project tsconfig.json",
+        "format": "prettier --write src/**/*.ts",
+        "lint": "eslint src/**/*.ts"
+    },
+    "dependencies": {
+        "@beefy-databarn/config": "*",
+        "@beefy-databarn/logger": "*",
+        "blockchain-addressbook": "^0.45.34"
+    },
+    "devDependencies": {}
+}

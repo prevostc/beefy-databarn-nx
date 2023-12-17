@@ -1,0 +1,23 @@
+{
+    "name": "@beefy-databarn/beefy-api-indexer",
+    "version": "1.0.0",
+    "description": "",
+    "main": "dist/index.js",
+    "license": "ISC",
+    "scripts": {
+        "start": "node dist/index.js",
+        "dev": "ts-node src/index.ts",
+        "clean": "rm -rf dist",
+        "build": "tsc --project tsconfig.json",
+        "format": "prettier --write src/**/*.ts",
+        "lint": "eslint src/**/*.ts"
+    },
+    "dependencies": {
+        "@beefy-databarn/config": "*",
+        "@beefy-databarn/logger": "*",
+        "pg": "^8.11.3"
+    },
+    "devDependencies": {
+        "@types/pg": "^8.10.9"
+    }
+}
