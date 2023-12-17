@@ -9,14 +9,15 @@
         "build": "tsc --project tsconfig.json",
         "format": "prettier --write src/**/*.ts",
         "lint": "eslint src/**/*.ts",
-        "codegen": "ts-node src/script/generate-types-from-pg.ts"
+        "codegen": "rm -Rf src/generated && ts-node src/script/generate-types-from-pg.ts"
     },
     "dependencies": {
         "@beefy-databarn/async-tools": "*",
         "@beefy-databarn/config": "*",
         "@beefy-databarn/logger": "*",
         "pg": "^8.11.3",
-        "pg-format": "^1.0.4"
+        "pg-format": "^1.0.4",
+        "zod": "^3.22.4"
     },
     "devDependencies": {
         "@types/pg-format": "^1.0.5",

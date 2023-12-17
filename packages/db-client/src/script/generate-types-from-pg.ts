@@ -9,7 +9,7 @@ import { tryParse } from "tagged-comment-parser";
 
 const logger = getLoggerFor("db-client", "generate-types-from-pg");
 const toPascalCase = recase("snake", "pascal");
-const outputPath = __dirname + "./models";
+const outputPath = __dirname + "/../generated";
 
 const generateZodSchemas = makeGenerateZodSchemas({
     getZodSchemaMetadata: defaultGetZodSchemaMetadata,
@@ -17,10 +17,8 @@ const generateZodSchemas = makeGenerateZodSchemas({
     zodTypeMap: {
         ...defaultZodTypeMap,
         "pg_catalog.tsvector": "z.set(z.string())",
-        "pg_catalog.bytea": {
-            name: "z.custom<Bytea>(v => v)",
-            typeImports: [{ name: "Bytea", path: "bytea", importAsType: true, isAbsolute: true, isDefault: false }],
-        },
+        "pg_catalog.bytea": "z.string()",
+        "public.evm_address": "z.string().refine((v) => v.length === 20, { message: 'EVM address must be 20 bytes long' })",
     },
     castToSchema: true,
 });
@@ -94,9 +92,7 @@ const kanelConfig: KanelConfig = {
         // A text search vector could be stored as a set of strings. See Film.ts for an example.
         "pg_catalog.tsvector": "Set<string>",
 
-        // The bytea package (https://www.npmjs.com/package/postgres-bytea) could be used for byte arrays.
-        // See Staff.ts for an example.
-        "pg_catalog.bytea": { name: "bytea", typeImports: [{ name: "bytea", path: "bytea", importAsType: true, isAbsolute: true, isDefault: true }] },
+        "pg_catalog.bytea": "string",
 
         // Columns with the following types would probably just be strings in TypeScript.
         "pg_catalog.bpchar": "string",

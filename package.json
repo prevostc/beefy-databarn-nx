@@ -11,6 +11,7 @@
         "format": "nx run-many --target=format --all && yarn --silent format:top-level",
         "format:top-level": "./node_modules/.bin/prettier . '!packages/**/*' --write",
         "test": "nx run-many --target=test --all",
+        "codegen": "nx run-many --target=codegen --all",
         "affected:build": "nx affected -t build --parallel",
         "affected:test": "nx affected -t test --parallel",
         "affected:lint": "nx affected -t lint --parallel",
