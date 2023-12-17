@@ -2,7 +2,7 @@
     "name": "@beefy-databarn/async-tools",
     "version": "1.0.0",
     "description": "",
-    "main": "dist/index.js",
+    "main": "dist/async-tools/index.js",
     "license": "ISC",
     "scripts": {
         "clean": "rm -rf dist",

@@ -2,7 +2,7 @@
     "name": "@beefy-databarn/beefy-api",
     "version": "1.0.0",
     "description": "",
-    "main": "dist/index.js",
+    "main": "dist/beefy-api/index.js",
     "license": "ISC",
     "scripts": {
         "clean": "rm -rf dist",

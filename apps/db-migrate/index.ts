@@ -1,5 +1,5 @@
 import { getLoggerFor } from "@beefy-databarn/logger";
-import { migrate } from "./run-migrations";
+import { migrate } from "./src/run-migrations";
 
 const logger = getLoggerFor("db-migrate", "main");
 

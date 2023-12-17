@@ -2,7 +2,7 @@
     "name": "@beefy-databarn/db-client",
     "version": "1.0.0",
     "description": "",
-    "main": "dist/index.js",
+    "main": "dist/db-client/index.js",
     "license": "ISC",
     "scripts": {
         "clean": "rm -rf dist",
@@ -12,9 +12,9 @@
         "codegen": "ts-node src/script/generate-types-from-pg.ts"
     },
     "dependencies": {
+        "@beefy-databarn/async-tools": "*",
         "@beefy-databarn/config": "*",
         "@beefy-databarn/logger": "*",
-        "@beefy-databarn/async-tools": "*",
         "pg": "^8.11.3",
         "pg-format": "^1.0.4"
     },

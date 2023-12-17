@@ -5,7 +5,7 @@ RUN mkdir -p /opt/build;
 WORKDIR /opt/build
 
 ARG APP_NAME="please set APP_NAME"
-COPY [ "tsconfig.lib.json", "nx.json", "./" ]
+COPY [ "tsconfig.base.json", "tsconfig.lib.json", "tsconfig.app.json", "nx.json", "./" ]
 COPY [ "package.json", "yarn.lock", "./" ]
 COPY packages packages
 COPY apps/$APP_NAME apps/$APP_NAME
@@ -30,4 +30,4 @@ COPY --from=build /opt/build/packages /opt/app/packages
 ENV NODE_ENV='production'
 ENV APP_NAME=$APP_NAME
 ENTRYPOINT []
-CMD node apps/${APP_NAME}/dist/apps/${APP_NAME}/src/index.js
+CMD ls /opt/app/node_modules/@beefy-databarn/logger/dist && node /opt/app/apps/$APP_NAME/dist/${APP_NAME}/index.js

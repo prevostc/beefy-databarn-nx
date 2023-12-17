@@ -6,6 +6,7 @@
         "prepare": "husky install",
         "clean": "nx run-many --target=clean --all && rm -rf dist",
         "build": "nx run-many --target=build --all",
+        "build:force": "nx run-many --target=build --all --skip-nx-cache",
         "lint": "nx run-many --target=lint --all",
         "format": "nx run-many --target=format --all && yarn --silent format:top-level",
         "format:top-level": "./node_modules/.bin/prettier . '!packages/**/*' --write",

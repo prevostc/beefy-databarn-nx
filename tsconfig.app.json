@@ -3,7 +3,7 @@
     "compilerOptions": {
         // compiler
         "baseUrl": ".",
-        "rootDir": "packages",
-        "outDir": "dist/packages"
+        "rootDir": "apps",
+        "outDir": "dist/apps"
     }
 }
