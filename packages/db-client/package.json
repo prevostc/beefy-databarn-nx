@@ -6,13 +6,15 @@
     "license": "ISC",
     "scripts": {
         "clean": "rm -rf dist",
-        "format": "prettier --write src/**/*.ts script/**/*.ts",
-        "lint": "eslint src/**/*.ts script/**/*.ts",
-        "codegen": "ts-node script/generate-types-from-pg.ts"
+        "build": "tsc --project tsconfig.json",
+        "format": "prettier --write src/**/*.ts",
+        "lint": "eslint src/**/*.ts",
+        "codegen": "ts-node src/script/generate-types-from-pg.ts"
     },
     "dependencies": {
         "@beefy-databarn/config": "*",
         "@beefy-databarn/logger": "*",
+        "@beefy-databarn/async-tools": "*",
         "pg": "^8.11.3",
         "pg-format": "^1.0.4"
     },

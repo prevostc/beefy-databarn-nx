@@ -1,8 +1,8 @@
+import { ConnectionTimeoutError, isConnectionTimeoutError, withTimeout } from "@beefy-databarn/async-tools";
 import { DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER } from "@beefy-databarn/config";
 import { getLoggerFor } from "@beefy-databarn/logger";
 import { Client as PgClient } from "pg";
 import pgf from "pg-format";
-import { ConnectionTimeoutError, isConnectionTimeoutError, withTimeout } from "./async";
 
 const logger = getLoggerFor("db-client", "db-query");
 
@@ -50,19 +50,14 @@ export async function init_db_client({ appName = "beefy", freshClient = false }:
 
 export async function db_transaction<TRes>(
     fn: (client: DbClient) => Promise<TRes>,
-    {
-        appName,
-        connectTimeoutMs = 10_000,
-        queryTimeoutMs = 10_000,
-        logInfos,
-    }: { appName: string; connectTimeoutMs?: number; queryTimeoutMs?: number },
+    { appName, connectTimeoutMs = 10_000, queryTimeoutMs = 10_000 }: { appName: string; connectTimeoutMs?: number; queryTimeoutMs?: number },
 ) {
-    const pgClient = await getDbClient({ appName, freshClient: true });
+    const pgClient = await init_db_client({ appName, freshClient: true });
     try {
-        await withTimeout(() => pgClient.connect(), connectTimeoutMs, mergeLogsInfos(logInfos, { msg: "connect", data: { connectTimeoutMs } }));
+        await withTimeout(() => pgClient.connect(), connectTimeoutMs);
         try {
             await pgClient.query("BEGIN");
-            const res = await withTimeout(() => fn(pgClient), queryTimeoutMs, mergeLogsInfos(logInfos, { msg: "query", data: { queryTimeoutMs } }));
+            const res = await withTimeout(() => fn(pgClient), queryTimeoutMs);
             await pgClient.query("COMMIT");
             return res;
         } catch (error) {
@@ -104,5 +99,5 @@ export async function db_query_one<RowType>(sql: string, params: unknown[] = [],
     if (rows.length === 0) {
         return null;
     }
-    return rows[0];
+    return rows[0] || null;
 }

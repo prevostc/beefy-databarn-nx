@@ -4,7 +4,10 @@
         "paths": {
             // only packages here
             "@beefy-databarn/config": ["packages/config/src/index.ts"],
-            "@beefy-databarn/logger": ["packages/logger/src/index.ts"]
+            "@beefy-databarn/logger": ["packages/logger/src/index.ts"],
+            "@beefy-databarn/db-client": ["packages/db-client/src/index.ts"],
+            "@beefy-databarn/beefy-api": ["packages/beefy-api/src/index.ts"],
+            "@beefy-databarn/async-tools": ["packages/async-tools/src/index.ts"]
         },
 
         // compiler

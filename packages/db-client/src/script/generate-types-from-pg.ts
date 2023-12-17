@@ -1,12 +1,15 @@
+import { runMain } from "@beefy-databarn/async-tools";
 import { DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER } from "@beefy-databarn/config";
+import { getLoggerFor } from "@beefy-databarn/logger";
 import { recase } from "@kristiandupont/recase";
-import { Config as KanelConfig, generateIndexFile } from "kanel";
+import { Config as KanelConfig, generateIndexFile, processDatabase } from "kanel";
 import { defaultGetZodIdentifierMetadata, defaultGetZodSchemaMetadata, defaultZodTypeMap, makeGenerateZodSchemas } from "kanel-zod";
 import { join } from "path";
 import { tryParse } from "tagged-comment-parser";
 
+const logger = getLoggerFor("db-client", "generate-types-from-pg");
 const toPascalCase = recase("snake", "pascal");
-const outputPath = "./example/models";
+const outputPath = __dirname + "./models";
 
 const generateZodSchemas = makeGenerateZodSchemas({
     getZodSchemaMetadata: defaultGetZodSchemaMetadata,
@@ -23,7 +26,7 @@ const generateZodSchemas = makeGenerateZodSchemas({
 });
 
 /** @type {import('../src/Config').default} */
-export const kanelConfig: KanelConfig = {
+const kanelConfig: KanelConfig = {
     connection: {
         host: DB_HOST,
         user: DB_USER,
@@ -100,3 +103,11 @@ export const kanelConfig: KanelConfig = {
         "public.citext": "string",
     },
 };
+
+async function run() {
+    logger.info({ msg: "Generating types from database" });
+    await processDatabase(kanelConfig);
+    logger.info({ msg: "Done generating types from database" });
+}
+
+runMain(run);
