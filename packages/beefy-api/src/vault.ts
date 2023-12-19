@@ -78,7 +78,16 @@ export async function fetchBeefyVaults() {
         platformId: vault.platformId,
         lastHarvest: new Date(vault.lastHarvest * 1000),
         strategyTypeId: vault.strategyTypeId || null,
-        pricePerFullShare: BigInt(vault.pricePerFullShare),
+        pricePerFullShare: parseBigInt(vault.pricePerFullShare),
         _raw: vault,
     }));
+}
+
+function parseBigInt(bigintStr: string): bigint {
+    try {
+        return BigInt(bigintStr);
+    } catch (err) {
+        logger.trace({ msg: "Failed to parse big int straight away", data: { bigintStr } });
+    }
+    return BigInt(parseFloat(bigintStr));
 }

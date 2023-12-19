@@ -13,11 +13,12 @@
         "lint": "eslint src/**/*.ts"
     },
     "dependencies": {
-        "@beefy-databarn/config": "*",
-        "@beefy-databarn/logger": "*",
-        "@beefy-databarn/time": "*",
         "@beefy-databarn/async-tools": "*",
-        "@beefy-databarn/beefy-api": "*"
+        "@beefy-databarn/beefy-api": "*",
+        "@beefy-databarn/config": "*",
+        "@beefy-databarn/db-client": "*",
+        "@beefy-databarn/logger": "*",
+        "@beefy-databarn/time": "*"
     },
     "devDependencies": {}
 }

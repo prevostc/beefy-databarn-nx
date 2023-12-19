@@ -32,6 +32,5 @@ CREATE TABLE raw_beefy_vault (
     strategy_address evm_address NOT NULL,
     platform_id character varying,
     last_harvest timestamptz,
-    price_per_full_share evm_decimal_256,
-    raw jsonb
+    price_per_full_share evm_decimal_256
 );
