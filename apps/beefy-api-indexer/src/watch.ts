@@ -1,16 +1,22 @@
 import { runAtLeastEvery } from "@beefy-databarn/async-tools";
-import { fetchBeefyBoosts, fetchBeefyVaults } from "@beefy-databarn/beefy-api";
-import { getDbClient, strAddressToPgBytea, type RawBeefyBoostBoostId, type RawBeefyVaultVaultId } from "@beefy-databarn/db-client";
+import { fetchBeefyBoosts, fetchBeefyTokens, fetchBeefyVaults } from "@beefy-databarn/beefy-api";
+import {
+    getDbClient,
+    strAddressToPgBytea,
+    type RawBeefyBoostBoostId,
+    type RawBeefyTokenTokenId,
+    type RawBeefyVaultVaultId,
+} from "@beefy-databarn/db-client";
 import { getLoggerFor } from "@beefy-databarn/logger";
 import { SamplingPeriod } from "@beefy-databarn/time";
-import { chunk } from "lodash";
+import { chunk, groupBy, values } from "lodash";
 
 const logger = getLoggerFor("beefy-api-indexer", "watch");
 
 export const watchBeefyApi = async (interval: SamplingPeriod) => {
     await runAtLeastEvery(
         async () => {
-            await Promise.allSettled([doFetchBeefyVaults(), doFetchBeefyBoosts()]);
+            await Promise.allSettled([doFetchBeefyVaults(), doFetchBeefyBoosts(), doFetchBeefyTokens()]);
         },
         { interval, startImmediately: true },
     );
@@ -18,7 +24,7 @@ export const watchBeefyApi = async (interval: SamplingPeriod) => {
 
 async function doFetchBeefyVaults() {
     logger.info({ msg: "Starting beefy api ingestion" });
-    const db = await getDbClient({ appName: "beefy-api-indexer" });
+    const db = await getDbClient({ appName: "beefy-api-indexer:vaults" });
     const vaults = await fetchBeefyVaults();
     logger.info({ msg: "Vaults", data: { vaultCount: vaults.length } });
 
@@ -85,8 +91,8 @@ async function doFetchBeefyVaults() {
 }
 
 async function doFetchBeefyBoosts() {
-    logger.info({ msg: "Starting beefy api ingestion" });
-    const db = await getDbClient({ appName: "beefy-api-indexer" });
+    logger.info({ msg: "Starting beefy boosts ingestion" });
+    const db = await getDbClient({ appName: "beefy-api-indexer:boost" });
     const boosts = await fetchBeefyBoosts();
     logger.info({ msg: "Boosts", data: { boostCount: boosts.length } });
 
@@ -142,4 +148,62 @@ async function doFetchBeefyBoosts() {
         .execute();
 
     logger.info({ msg: "beefy boost ingestion done" });
+}
+
+async function doFetchBeefyTokens() {
+    logger.info({ msg: "Starting beefy api ingestion" });
+    const db = await getDbClient({ appName: "beefy-api-indexer:tokens" });
+    const tokens = await fetchBeefyTokens();
+    logger.info({ msg: "Tokens", data: { tokenCount: tokens.length } });
+
+    const inserts = chunk(
+        tokens.map(token => ({
+            token_id: token.token_id as RawBeefyTokenTokenId,
+            chain: token.chain,
+            symbol: token.symbol,
+            decimals: token.decimals,
+            is_native: token.address === "native",
+            address: token.address === "native" ? null : strAddressToPgBytea(token.address),
+            price_feed_key: token.price_feed_key,
+        })),
+        500,
+    );
+
+    for (const insert of inserts) {
+        logger.trace({ msg: "Inserting", data: { insertCount: insert.length } });
+
+        const duplicates = values(groupBy(insert, "token_id")).filter(tokens => tokens.length > 1);
+        if (duplicates.length > 0) {
+            logger.warn({ msg: `Found duplicate tokens`, data: { duplicates } });
+        }
+
+        await db
+            .insertInto("raw_beefy_token")
+            .values(insert)
+            .onConflict(oc =>
+                oc.column("token_id").doUpdateSet({
+                    chain: eb => eb.ref("excluded.chain"),
+                    symbol: eb => eb.ref("excluded.symbol"),
+                    decimals: eb => eb.ref("excluded.decimals"),
+                    is_native: eb => eb.ref("excluded.is_native"),
+                    address: eb => eb.ref("excluded.address"),
+                    price_feed_key: eb => eb.ref("excluded.price_feed_key"),
+                }),
+            )
+            .execute();
+
+        logger.debug({ msg: "Inserted one token batch", data: { insertCount: insert.length } });
+    }
+
+    logger.trace({ msg: "Deleting old tokens" });
+    await db
+        .deleteFrom("raw_beefy_token")
+        .where(
+            "token_id",
+            "not in",
+            tokens.map(b => b.token_id as RawBeefyTokenTokenId),
+        )
+        .execute();
+
+    logger.info({ msg: "beefy token ingestion done" });
 }

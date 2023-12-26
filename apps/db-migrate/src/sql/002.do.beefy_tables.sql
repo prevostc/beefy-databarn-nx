@@ -54,3 +54,12 @@ CREATE TABLE raw_beefy_boost (
     reward_token_address evm_address NOT NULL,
     reward_token_price_feed_key character varying NOT NULL
 );
+CREATE TABLE raw_beefy_token (
+    token_id character varying NOT NULL primary key,
+    chain chain_enum NOT NULL,
+    symbol character varying NOT NULL,
+    decimals integer NOT NULL,
+    is_native boolean NOT NULL,
+    address evm_address,
+    price_feed_key character varying NOT NULL
+);

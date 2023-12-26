@@ -35,7 +35,7 @@ export interface BeefyBoost {
 
     vault_id: string;
     name: string;
-    contract_address: string;
+    contract_address: Hex;
 
     // end of life
     eol: boolean;
@@ -43,11 +43,11 @@ export interface BeefyBoost {
 
     reward_token_symbol: string;
     reward_token_decimals: number;
-    reward_token_address: string;
+    reward_token_address: Hex;
     reward_token_price_feed_key: string;
 }
 
-export async function fetchBeefyBoosts() {
+export async function fetchBeefyBoosts(): Promise<BeefyBoost[]> {
     logger.info("Fetching boosts from beefy api");
     const boostResponse = await axios.get<ApiBeefyBoostResponse[]>("https://api.beefy.finance/boosts");
     const boosts = boostResponse.data;
@@ -68,5 +68,6 @@ export async function fetchBeefyBoosts() {
         reward_token_price_feed_key: boost.earnedOracleId,
 
         eol: boost.status === "closed",
+        eol_date: boost.periodFinish ? new Date(boost.periodFinish * 1000) : null,
     }));
 }

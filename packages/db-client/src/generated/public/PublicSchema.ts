@@ -3,9 +3,12 @@
 
 import { type default as RawBeefyVaultTable } from './RawBeefyVault';
 import { type default as RawBeefyBoostTable } from './RawBeefyBoost';
+import { type default as RawBeefyTokenTable } from './RawBeefyToken';
 
 export default interface PublicSchema {
   raw_beefy_vault: RawBeefyVaultTable;
 
   raw_beefy_boost: RawBeefyBoostTable;
+
+  raw_beefy_token: RawBeefyTokenTable;
 }

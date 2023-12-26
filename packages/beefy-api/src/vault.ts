@@ -76,7 +76,7 @@ export interface BeefyVaultStats {
     last_harvest: Date | null;
 }
 
-export async function fetchBeefyVaults() {
+export async function fetchBeefyVaults(): Promise<BeefyVault[]> {
     logger.info("Fetching vaults from beefy api");
     const vaultResponse = await axios.get<ApiBeefyVaultResponse[]>("https://api.beefy.finance/vaults");
     const rawVaults = vaultResponse.data;

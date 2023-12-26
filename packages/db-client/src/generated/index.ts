@@ -15,6 +15,13 @@ export {
     type RawBeefyBoostUpdate,
 } from "./public/RawBeefyBoost";
 export {
+    type NewRawBeefyToken,
+    type RawBeefyToken,
+    type default as RawBeefyTokenTable,
+    type RawBeefyTokenTokenId,
+    type RawBeefyTokenUpdate,
+} from "./public/RawBeefyToken";
+export {
     type NewRawBeefyVault,
     type RawBeefyVault,
     type default as RawBeefyVaultTable,
