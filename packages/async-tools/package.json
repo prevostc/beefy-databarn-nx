@@ -11,7 +11,8 @@
         "lint": "eslint src/**/*.ts"
     },
     "dependencies": {
-        "@beefy-databarn/logger": "*"
+        "@beefy-databarn/logger": "*",
+        "@beefy-databarn/time": "*"
     },
     "devDependencies": {}
 }

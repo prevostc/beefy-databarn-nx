@@ -1,3 +1,4 @@
+import { runAtLeastEvery } from "@beefy-databarn/async-tools";
 import { fetchBeefyVaults } from "@beefy-databarn/beefy-api";
 import { getDbClient, strAddressToPgBytea, type RawBeefyVaultId } from "@beefy-databarn/db-client";
 import { getLoggerFor } from "@beefy-databarn/logger";
@@ -7,11 +8,14 @@ import { chunk } from "lodash";
 const logger = getLoggerFor("beefy-api-indexer", "watch");
 
 export const watchBeefyApi = async (interval: SamplingPeriod) => {
-    logger.info({ msg: "Starting", data: { interval } });
+    await runAtLeastEvery(doFetchBeefyVaults, { interval, startImmediately: true });
+};
 
+async function doFetchBeefyVaults() {
+    logger.info({ msg: "Starting beefy api ingestion" });
     const db = await getDbClient({ appName: "beefy-api-indexer" });
     const vaults = await fetchBeefyVaults();
-    logger.info({ msg: "Vaults", data: { vaultCount: vaults } });
+    logger.info({ msg: "Vaults", data: { vaultCount: vaults.length } });
 
     const inserts = chunk(
         vaults.map(vault => ({
@@ -23,6 +27,7 @@ export const watchBeefyApi = async (interval: SamplingPeriod) => {
             platform_id: vault.platformId,
             last_harvest: vault.lastHarvest ? new Date(vault.lastHarvest) : null,
             price_per_full_share: vault.pricePerFullShare.toString(),
+            _updated_at: new Date(),
         })),
         500,
     );
@@ -41,6 +46,8 @@ export const watchBeefyApi = async (interval: SamplingPeriod) => {
                 }),
             )
             .execute();
-        logger.info({ msg: "Inserted", data: { insertCount: insert.length } });
+        logger.debug({ msg: "Inserted one batch", data: { insertCount: insert.length } });
     }
-};
+
+    logger.info({ msg: "beefy api ingestion done" });
+}

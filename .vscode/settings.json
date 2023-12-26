@@ -1,12 +1,12 @@
 {
     "files.exclude": {
         "packages/*/coverage": true,
-        "packages/*/dist": true,
+        //"packages/*/dist": true,
         "packages/*/node_modules": true,
         "apps/*/coverage": true,
-        "apps/*/dist": true,
+        //"apps/*/dist": true,
         "apps/*/node_modules": true,
-        ".nx": true,
+        //".nx": true,
         ".husky": true
         //"node_modules": true
     },
@@ -14,5 +14,17 @@
     //"prettier.prettierPath": "node_modules/prettier",
     "prettier.configPath": ".prettierrc",
     "prettier.ignorePath": ".prettierignore",
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "localhost",
+            "database": "beefy",
+            "username": "beefy",
+            "password": "beefy"
+        }
+    ]
 }

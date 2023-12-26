@@ -37,7 +37,7 @@ export const allSamplingPeriods: SamplingPeriod[] = [
     "1year",
     "100year",
 ];
-export const samplingPeriodMs: { [period in SamplingPeriod]: number } = {
+const samplingPeriodMs: { [period in SamplingPeriod]: number } = {
     "1sec": 1000,
     "10sec": 10 * 1000,
     "15sec": 15 * 1000,
@@ -57,3 +57,7 @@ export const samplingPeriodMs: { [period in SamplingPeriod]: number } = {
     "1year": 365 * 24 * 60 * 60 * 1000,
     "100year": 100 * 365 * 24 * 60 * 60 * 1000,
 };
+
+export function samplingPeriodToMs(period: SamplingPeriod) {
+    return samplingPeriodMs[period];
+}
