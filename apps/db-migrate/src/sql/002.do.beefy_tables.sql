@@ -25,12 +25,32 @@ CREATE TYPE chain_enum AS ENUM (
     'zksync'
 );
 CREATE TABLE raw_beefy_vault (
-    id character varying NOT NULL primary key,
-    eol_date timestamptz,
+    vault_id character varying NOT NULL primary key,
     chain chain_enum NOT NULL,
+    eol boolean NOT NULL,
+    eol_date timestamptz,
+    share_token_name character varying NOT NULL,
+    share_token_decimals integer NOT NULL,
     contract_address evm_address NOT NULL,
     strategy_address evm_address NOT NULL,
-    platform_id character varying,
-    last_harvest timestamptz,
-    price_per_full_share evm_decimal_256
+    underlying_contract_address evm_address NOT NULL,
+    underlying_decimals integer NOT NULL,
+    underlying_price_feed_key character varying NOT NULL,
+    platform character varying,
+    strategy_type character varying,
+    assets character varying [],
+    bridged_version_addresses jsonb
+);
+CREATE TABLE raw_beefy_boost (
+    boost_id character varying NOT NULL primary key,
+    chain chain_enum NOT NULL,
+    vault_id character varying NOT NULL,
+    name character varying NOT NULL,
+    contract_address evm_address NOT NULL,
+    eol boolean NOT NULL,
+    eol_date timestamptz,
+    reward_token_symbol character varying NOT NULL,
+    reward_token_decimals integer NOT NULL,
+    reward_token_address evm_address NOT NULL,
+    reward_token_price_feed_key character varying NOT NULL
 );

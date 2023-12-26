@@ -47,19 +47,33 @@ interface ApiBeefyVaultResponse {
     bridged?: {
         optimism: Hex;
     };
+    eolDate?: number;
 }
 
 export interface BeefyVault {
-    id: string;
-    eol: boolean;
+    vault_id: string;
     chain: Chain;
-    contractAddress: Hex;
-    strategyAddress: Hex;
-    platformId: string;
-    lastHarvest: Date;
-    strategyTypeId: string | null;
-    pricePerFullShare: bigint;
-    _raw: ApiBeefyVaultResponse;
+    eol: boolean;
+    eol_date: Date | null;
+    share_token_name: string;
+    share_token_decimals: number;
+    contract_address: Hex;
+    strategy_address: Hex;
+    underlying_contract_address: Hex;
+    underlying_decimals: number;
+    underlying_price_feed_key: string;
+    platform: string;
+    strategy_type: string | null;
+    assets: string[];
+    bridged_version_addresses: Partial<Record<Chain, Hex>>;
+}
+
+export interface BeefyVaultStats {
+    vault_id: string;
+    chain: Chain;
+    eol: boolean;
+    price_per_full_share: bigint;
+    last_harvest: Date | null;
 }
 
 export async function fetchBeefyVaults() {
@@ -69,18 +83,47 @@ export async function fetchBeefyVaults() {
     logger.info(`Fetched ${rawVaults.length} vaults from beefy api`);
 
     // map to a simpler format
-    return rawVaults.map(vault => ({
-        id: vault.id,
-        eol: vault.status === "eol",
-        chain: vault.chain,
-        contractAddress: vault.earnContractAddress as Hex,
-        strategyAddress: vault.strategy as Hex,
-        platformId: vault.platformId,
-        lastHarvest: new Date(vault.lastHarvest * 1000),
-        strategyTypeId: vault.strategyTypeId || null,
-        pricePerFullShare: parseBigInt(vault.pricePerFullShare),
-        _raw: vault,
-    }));
+    return rawVaults.map(
+        (vault): BeefyVault => ({
+            vault_id: vault.id,
+            eol: vault.status === "eol",
+            chain: vault.chain,
+            contract_address: vault.earnContractAddress as Hex,
+            strategy_address: vault.strategy as Hex,
+            platform: vault.platformId,
+            strategy_type: vault.strategyTypeId || null,
+            assets: vault.assets,
+            share_token_name: vault.token,
+            share_token_decimals: vault.tokenDecimals,
+            underlying_contract_address: vault.earnedTokenAddress,
+            underlying_decimals: vault.tokenDecimals,
+            underlying_price_feed_key: vault.oracleId,
+            eol_date: vault.eolDate ? new Date(vault.eolDate * 1000) : null,
+            bridged_version_addresses: vault.bridged
+                ? {
+                      optimism: vault.bridged.optimism as Hex,
+                  }
+                : {},
+        }),
+    );
+}
+
+export async function fetchBeefyVaultStats() {
+    logger.info("Fetching vault stats from beefy api");
+    const vaultResponse = await axios.get<ApiBeefyVaultResponse[]>("https://api.beefy.finance/vaults");
+    const rawVaults = vaultResponse.data;
+    logger.info(`Fetched ${rawVaults.length} vaults from beefy api`);
+
+    // map to a simpler format
+    return rawVaults.map(
+        (vault): BeefyVaultStats => ({
+            vault_id: vault.id,
+            eol: vault.status === "eol",
+            chain: vault.chain,
+            price_per_full_share: parseBigInt(vault.pricePerFullShare),
+            last_harvest: vault.lastHarvest ? new Date(vault.lastHarvest * 1000) : null,
+        }),
+    );
 }
 
 function parseBigInt(bigintStr: string): bigint {

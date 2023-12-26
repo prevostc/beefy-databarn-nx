@@ -3,29 +3,42 @@
 
 import { type default as ChainEnum } from './ChainEnum';
 import { type default as EvmAddress } from './EvmAddress';
-import { type default as EvmDecimal256 } from './EvmDecimal256';
 import { type ColumnType, type Selectable, type Insertable, type Updateable } from 'kysely';
 
 /** Identifier type for public.raw_beefy_vault */
-export type RawBeefyVaultId = string & { __brand: 'RawBeefyVaultId' };
+export type RawBeefyVaultVaultId = string & { __brand: 'RawBeefyVaultVaultId' };
 
 /** Represents the table public.raw_beefy_vault */
 export default interface RawBeefyVaultTable {
-  id: ColumnType<RawBeefyVaultId, RawBeefyVaultId, RawBeefyVaultId>;
+  vault_id: ColumnType<RawBeefyVaultVaultId, RawBeefyVaultVaultId, RawBeefyVaultVaultId>;
+
+  chain: ColumnType<ChainEnum, ChainEnum, ChainEnum>;
+
+  eol: ColumnType<boolean, boolean, boolean>;
 
   eol_date: ColumnType<Date | null, Date | string | null, Date | string | null>;
 
-  chain: ColumnType<ChainEnum, ChainEnum, ChainEnum>;
+  share_token_name: ColumnType<string, string, string>;
+
+  share_token_decimals: ColumnType<number, number, number>;
 
   contract_address: ColumnType<EvmAddress, EvmAddress, EvmAddress>;
 
   strategy_address: ColumnType<EvmAddress, EvmAddress, EvmAddress>;
 
-  platform_id: ColumnType<string | null, string | null, string | null>;
+  underlying_contract_address: ColumnType<EvmAddress, EvmAddress, EvmAddress>;
 
-  last_harvest: ColumnType<Date | null, Date | string | null, Date | string | null>;
+  underlying_decimals: ColumnType<number, number, number>;
 
-  price_per_full_share: ColumnType<EvmDecimal256 | null, EvmDecimal256 | null, EvmDecimal256 | null>;
+  underlying_price_feed_key: ColumnType<string, string, string>;
+
+  platform: ColumnType<string | null, string | null, string | null>;
+
+  strategy_type: ColumnType<string | null, string | null, string | null>;
+
+  assets: ColumnType<string[] | null, string[] | null, string[] | null>;
+
+  bridged_version_addresses: ColumnType<unknown | null, unknown | null, unknown | null>;
 }
 
 export type RawBeefyVault = Selectable<RawBeefyVaultTable>;

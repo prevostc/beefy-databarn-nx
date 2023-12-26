@@ -8,9 +8,16 @@ export { type default as EvmDecimal256 } from "./public/EvmDecimal256";
 export { type default as EvmTransactionHash } from "./public/EvmTransactionHash";
 export { type default as PublicSchema } from "./public/PublicSchema";
 export {
+    type NewRawBeefyBoost,
+    type RawBeefyBoost,
+    type RawBeefyBoostBoostId,
+    type default as RawBeefyBoostTable,
+    type RawBeefyBoostUpdate,
+} from "./public/RawBeefyBoost";
+export {
     type NewRawBeefyVault,
     type RawBeefyVault,
-    type RawBeefyVaultId,
     type default as RawBeefyVaultTable,
     type RawBeefyVaultUpdate,
+    type RawBeefyVaultVaultId,
 } from "./public/RawBeefyVault";
